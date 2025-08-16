@@ -7,8 +7,10 @@ import { createGallery, showLoader, clearGallery, hideLoader, showLoadMoreButton
 
 const allForm = document.querySelector('.js-form');
 const loadMoreBtn = document.querySelector('.js-load-more');
+const formLoader = document.querySelector('.js-loader');
+const btnLoader = document.querySelector('.js-loader-load-more');
 
-let currentPage = 1;
+let currentPage;
 let maxPages = 0;
 let textInput;
 const pageSize = 15;
@@ -16,7 +18,10 @@ let getImagesOnPage;
 
 allForm.addEventListener('submit', async (e) => {
 	e.preventDefault();
-	textInput = e.target.elements.search_text.value;
+	hideLoadMoreButton();
+	currentPage = 1;	
+		
+textInput = e.target.elements.search_text.value;
 	if (!textInput.trim()) {
 		 iziToast.error({
 			position: 'topRight',
@@ -24,7 +29,7 @@ allForm.addEventListener('submit', async (e) => {
 		 });clearGallery(); return; 
 	};
 		clearGallery();
-	   showLoader();
+	   showLoader(formLoader);
 
 	try {
 		getImagesOnPage = await getImagesByQuery(textInput.trim(), currentPage);
@@ -37,27 +42,33 @@ allForm.addEventListener('submit', async (e) => {
 		} else { createGallery(getImagesOnPage.hits) }
 		maxPages = Math.ceil(getImagesOnPage.totalHits / pageSize) ;
 	}
-	catch (error) { iziToast.error({
+	catch (error) {
+		console.log(error);
+		
+		iziToast.error({
 			position: 'topRight',
 			message: error,
-	})
+		});
 	}
-	checkLoadBtnStatus()
-			hideLoader();
+	checkLoadBtnStatus();
+	hideLoader(formLoader);
 		e.target.reset();
 })
 	
 loadMoreBtn.addEventListener('click', async () => {
-	showLoader();
+	showLoader(btnLoader);
 	currentPage += 1;
 	checkLoadBtnStatus();
+	
 
 	try {
 		getImagesOnPage = await getImagesByQuery(textInput.trim(), currentPage);
 		createGallery(getImagesOnPage.hits);
 	}
 	catch {iziToast.error({ message: 'ERROR' });}
-	hideLoader();
+	hideLoader(btnLoader);
+
+
 
   const cardGallery = document.querySelector('.js-gallery-card');
 	if (!cardGallery) return;

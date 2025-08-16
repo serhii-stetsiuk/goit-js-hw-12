@@ -4,17 +4,11 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const generalGallery = document.querySelector('.js-gallery');
-const formLoader = document.querySelector('.js-loader');
 const loadMoreBtn = document.querySelector('.js-load-more');
-const btnLoader = document.querySelector('.js-loader-load-more');
 let simpleLightbox = new SimpleLightbox('.js-gallery a', {
 	captionDelay: 250,
 	overlayOpacity: 0.95,
 });
-
-
-
-
 
 export function createGallery(images) {
 	const markup = images.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
@@ -46,31 +40,20 @@ export function createGallery(images) {
 	}).join('');
 	generalGallery.insertAdjacentHTML('beforeend', markup);
 	simpleLightbox.refresh();
-	hideLoader();
 }
 
-export function showLoader() {
-	if (!loadMoreBtn) {
-		formLoader.classList.add('js-isActive');
-	} else {
-		btnLoader.classList.add('js-isActive');
-	}
-		
+export function showLoader(loader) {
+		loader.classList.add('js-isActive');	
 }
-export function hideLoader() {
-		if (loadMoreBtn) {
-		btnLoader.classList.remove('js-isActive');
-	} else {
-		formLoader.classList.remove('js-isActive');
-	}
+export function hideLoader(loader) {
+	loader.classList.remove('js-isActive');
+}
 
-	
-	
-}
+
 export function clearGallery() {
 	if (generalGallery) {
 		generalGallery.innerHTML = '';
-	}
+	} else { return; }
 }
 
 export function showLoadMoreButton(){
