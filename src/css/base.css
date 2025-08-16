@@ -237,4 +237,7 @@ main:has(.back-link) {
 	.form {
 		flex-direction: column;
 	}
+	.form_button{
+		margin: 0 auto;
+	}
 }

@@ -77,14 +77,12 @@ function checkLoadBtnStatus() {
 		message: "We're sorry, but you've reached the end of search results.",
 		position: 'bottomRight',
 	});
-	
 	}
 	if (currentPage < maxPages) {
 		showLoadMoreButton();
 	} else {
 		hideLoadMoreButton();
 	};
-	
 }
 
 
