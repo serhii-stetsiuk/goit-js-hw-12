@@ -78,7 +78,7 @@ function checkLoadBtnStatus() {
 		position: 'bottomRight',
 	});
 	}
-	if (currentPage < maxPages) {
+	if (currentPage <= maxPages) {
 		showLoadMoreButton();
 	} else {
 		hideLoadMoreButton();
